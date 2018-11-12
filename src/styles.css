@@ -1,0 +1,97 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
+.btn-primary {
+  background-color: #34468C !important;
+  border-color: #34468C;
+  padding: 6px 12px;
+  &:hover, &:active, &:visited {
+    background-color: #34468C !important;
+    border-color: #34468C;
+    padding: 6px 12px;
+  }
+}
+
+.btn-sm {
+  background-color: #34468C !important;
+  border-color: #34468C;
+  padding: 3px 6px !important;
+  line-height: 0.25;
+  font-size: 0.25rem;
+}
+
+.btn-search {
+    margin-left: 50px !important;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 14px;
+}
+
+a {
+  color: #34468C !important;
+}
+
+.pageHeader {
+  background-color: #33468c;
+  color: #fff !important;
+  font-size: 26px !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.5em;
+}
+
+.ml-1 {
+  padding: 1.75em;
+}
+
+.navbar-brand {
+  padding: 7px 0 0 15px;
+}
+
+.form-group {
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+}
+.offsetLeftMargin140 {
+    margin-left: 140px !important;
+}
+.offsetLeftMargin30 {
+    margin-left: 30px !important;
+}
+.offsetLeftMargin10 {
+    margin-left: 10px !important;
+}
+.selectwidth {
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-left: 50px !important;
+}
+.whitespace {
+    white-space: nowrap
+}
+ .padding90 {
+    padding-right: 90px;
+ }
+ .padding93 {
+    padding-right: 93px;
+ }
+ .padding103{
+    padding-right: 103px;
+ }
+ .padding115{
+    padding-right: 115px;
+ }
+ .padding135{
+    padding-right: 135px;
+ }
+ .padding150 {
+    padding-right: 150px;
+ }
+ .padding165 {
+    padding-right: 165px;
+ }
+
+
+

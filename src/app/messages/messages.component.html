@@ -1,0 +1,73 @@
+<div class="container text-center">
+    <!--<p>{{myForm.value | json}}</p>-->
+    <div class="col-md-12">
+        <div class="form-group">
+            <input type="radio" name="mailstatus" value="current" ngModel (click)="getCurrentMails()"> Current &nbsp;
+            <input type="radio" name="mailstatus" value="archived" ngModel (click)="getArchivedMails()"> Archived 
+        </div>
+        <table class="table">
+            <thead> 
+                <tr>
+                    <th><input type="checkbox" name="selectAll" ngModel></th>
+                    <th class="text-center">Edit</th>
+                    <th class="text-center">Recipients</th>
+                    <th class="text-center">Archived</th>
+                    <th class="text-center">Subject</th>
+                    <th class="text-center">Message Type</th>
+                    <th class="text-center">Posted By</th>
+                    <th class="text-center">Posted Date</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let message of allmessages">
+                <tr>
+                    <td><input type="checkbox" (change)="onChange(message.MessageId, $event.target.checked)"></td>
+                    <td><a class="text-center" [routerLink]="['/']" (click)= "editMessage(message.MessageId)">Edit</a></td>
+                    <td><a class="text-center" [routerLink]="['/']" (click)= "getRecipients(message.Recipients)">{{message.Recipients.length}}</a></td>
+                    <td><a class="text-center" [routerLink]="['/']">Archived 1</a></td>
+                    <td class="text-center">{{message.Subject}}</td>
+                    <td class="text-center">{{message.TypeName}}</td>
+                    <td class="text-center">{{message.PostedBy}}</td>
+                    <td class="text-center">{{message.DatePosted | date: 'dd/MM/yyyy'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group text-left">
+        <button (click)="deleteSelectedMessages()" type="button" name="delete" class="btn btn-primary btn-sm offsetLeftMargin30"> Delete </button>
+        <button (click)="expireMessage()" type="button" name="expire" class="btn btn-primary btn-sm offsetLeftMargin10"> Expire </button> <!--TODO- HIDE WHEN IN ARCHIVED VIEW-->
+        <button (click)="unexpireMessage()" type="button" name="unexpire" class="btn btn-primary btn-sm offsetLeftMargin10"> Unexpire </button> <!---TODO- HIDE WHEN IN CURRENT VIEW-->
+    </div>
+    <span class="col-md-12" id="recepientSection" *ngIf="showRecipients">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" name="selectAll" ngModel></th>
+                    <th class="text-center"></th>
+                    <th class="text-center">Producer Code</th>
+                    <th class="text-center">Company Name</th>
+                    <th class="text-center">Read</th>
+                    <th class="text-center">Date Read</th>
+                    <th class="text-center">Deleted</th>
+                    <th class="text-center">Date Deleted</th>
+                    <th class="text-center">Archived</th>
+                </tr>
+            </thead>
+            <tbody >
+                <tr *ngFor="let recipient of recipientsPerMessage">
+                    <td><input type="checkbox" name="selectMessage" ngModel></td>
+                    <td><a class="text-center"(event)='deleteMessage(ngModel.MessageId)'>Delete</a></td>
+                    <td><a class="text-center">{{recipient.ProducerCode}}</a></td>
+                    <td><a class="text-center">SULLIVAN INSURANCE AGENCY</a></td>
+                    <td class="text-center">Y</td>
+                    <td class="text-center">6/13/2018 4:47:51 PM</td>
+                    <td class="text-center">Y</td>
+                    <td class="text-center">6/13/2018 4:48:07 PM</td>
+                    <td class="text-center"></td>
+                </tr>
+            </tbody>
+        </table>
+    </span>
+<div class="form-group">
+    <button class= "btn btn-primary" [routerLink]="['/create-message']"> Create New Message</button>
+</div>
+</div><!--End of container-->

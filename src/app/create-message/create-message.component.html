@@ -1,0 +1,100 @@
+<div class="container">
+    <p>{{newForm.value | json}}</p>
+    <p>{{messageModel | json}}</p>
+    <form name="form" (ngSubmit)="newForm.form.valid && onSubmit()" #newForm="ngForm" novalidate>
+    <div class="form-group">
+    <label for="TypeName" class="padding90">Message Type:</label>
+    <select class="selectwidth" name="TypeName" [(ngModel)]="messageModel.TypeName" #TypeName="ngModel" (change)="onSelectTypeName()" required>
+    <option value="" disable selected>Please Select</option>
+    <option *ngFor="let messagetype of allmessagetypes"> {{messagetype.TypeName}}</option>
+    </select>
+    <div *ngIf="newForm.submitted && TypeName.invalid" class="invalid-feedback">
+            <div *ngIf="TypeName.errors.required">Message Type is required</div>
+    </div>
+    </div>
+    <div class="form-group" *ngIf=showStateWideFields>
+    <label for="States">State(s):</label>
+    <ng-multiselect-dropdown
+            name = "States"
+            [placeholder]="'Please Select'"
+            [data]="statedropdownList"
+            [(ngModel)]="messageModel.selectedItems"
+            [settings]="statedropdownSettings"
+            (onSelect)="onSelectState($event)"
+            (onSelectAll)="onSelectAllStates($event)"
+            #States="ngModel">
+        </ng-multiselect-dropdown>
+    </div>
+    <div class="form-group" *ngIf='showAgentSpecificFields'>
+        <label for="FilterRights" class="padding135">Filter By Rights:</label>
+        <input type="radio" name="FilterRights" value="Yes" [(ngModel)]="messageModel.FilterRights" #filterRights="ngModel"> Yes
+        <input type="radio" name="FilterRights" value="No" [(ngModel)]="messageModel.FilterRights" #filterRights="ngModel"> No 
+    </div>
+    <div class="form-group" *ngIf='showAgencySpecificFields || showAgentSpecificFields'>
+        <label for="Recipienttypes" class="padding90">Recipient Type:</label>
+        <select name="Recipienttypes" class='selectwidth' [(ngModel)]="messageModel.Recipienttypes" #Recipienttypes="ngModel" required>
+        <option value="" disable selected>Please Select</option>
+        <option *ngFor="let recipienttype of recipienttypes"> {{recipienttype}}</option>
+        </select>
+        <span *ngIf='messageModel.Recipienttypes == "State"'>
+        <select name="State" class='selectwidth' [(ngModel)]="messageModel.State" #State="ngModel" required>
+        <option value="" disable selected>Select a State</option>
+        <option *ngFor="let state of statedropdownList"> {{state.item_text}}</option>
+        </select>
+        </span>
+        <span *ngIf='messageModel.Recipienttypes == "Agency" || messageModel.Recipienttypes == "Agent" || messageModel.Recipienttypes == "Producer Code"'>
+        <select name="RecipientSearchOptions" class='selectwidth' [(ngModel)]="messageModel.RecipientSearchOptions"  #RecipientSearchOptions="ngModel" required>
+        <option value="" disable selected>Select one</option>
+        <option *ngFor="let option of recipientsearchoptions"> {{option}}</option>
+        </select>
+        </span>
+        <span *ngIf='messageModel.Recipienttypes == "Agency" || messageModel.Recipienttypes == "Agent" || messageModel.Recipienttypes == "Producer Code" || messageModel.Recipienttypes == "State"'>
+            <button (click)="searchRecepientsbyState()" type="button" name="searchrecepient" class="btn btn-primary btn-sm btn-search"> Search </button>
+        </span>
+    </div>
+    <div class="form-group">
+        <label class="padding165">Posted By:</label>
+        {{Username}} - {{ProducerCode}}
+    </div>
+    <div class="form-group">
+        <label class="padding150">Date Posted: </label>
+        {{currDate | date: 'MM-dd-yyyy'}}
+    </div>
+    <div class="form-group">
+    <label for="DateViewable" class="padding93"> Date Viewable: </label> <input class='selectwidth' name="DateViewable" [owlDateTimeTrigger]="dv" [owlDateTime]="dv" [(ngModel)]="messageModel.DateViewable" #DateViewable=ngModel required>
+    <owl-date-time #dv></owl-date-time>
+    <!--<owl-date-time-inline [(ngModel)]="selectedMoment"></owl-date-time-inline>-->
+    </div>
+    <div class="form-group">
+    <label for="DateExpires" class="padding103"> Date Expires: </label> <input class='selectwidth' name="DateExpires" [owlDateTimeTrigger]="de" [owlDateTime]="de" [(ngModel)]="messageModel.DateExpires" #DateExpires=ngModel required>
+    <owl-date-time #de></owl-date-time>
+    </div>
+    <div class="form-group">
+    <label for="Subject" class="padding135">Subject:</label> <input class='selectwidth' name="Subject" [(ngModel)]="messageModel.Subject" #Subject=ngModel required> 
+    </div>
+    <div class="form-group">
+    <label for="Attachment" class="padding115">Message Attached: </label>
+    <input type="file" name="Attachment" ng2FileSelect [uploader]="uploader" [(ngModel)]="messageModel.Attachment" #Attachment=ngModel/>
+    <button type="button" class="btn btn-primary btn-sm" 
+    (click)="uploader.uploadAll()" 
+    [disabled]="!uploader.getNotUploadedItems().length" > Upload
+    </button>
+    </div>
+    <div class="form-group">
+    <label for="MessageText">Message Text: </label>
+    <div name="MessageText" [froalaEditor] [(froalaModel)]="MessageText" [(ngModel)]= "messageModel.MessageText" required ></div>
+    </div>
+    <div class="form-group text-left">
+        <button (click)="showPreview()" type="button" name="preview" class="btn btn-primary btn-sm"> Preview </button>
+    </div>
+    <div *ngIf="showPreviewContent">
+    <div [froalaView]="MessageText"></div>
+    </div>
+    <hr/>
+    <div class="form-group text-center">
+    <button type="submit" name="submit" *ngIf="isCreate" class= "btn btn-primary"> Submit </button>
+    <button type="submit" name="update" *ngIf="isUpdate" class= "btn btn-primary"> Update </button>
+    <button name="cancel" class= "btn btn-primary offsetLeftMargin140" [routerLink]="['/']"> Cancel </button>
+    </div>
+    </form>
+</div><!---end of container-->
